@@ -1,0 +1,94 @@
+[
+    {
+        fitting_executable: fitsnap3
+        lammps_executable: ""
+        base_directory: ./
+        atomic_numbers: 3
+        project_name: opt_SNAP
+        sweep_name: q_6_Li_150_rmse_75_32
+        mpi_nodes: "1"
+        mpi_cores_per_node: 64
+        test_on_train: False
+        error_method: rmse
+        error_energy_ratio: 0.75
+    }
+    {
+        numTypes: 1
+        twojmax: 6
+        rcutfac: skopt.space.Real(3,6)
+        rfac0: skopt.space.Real(0.5,1.5)
+        rmin0: 0
+        wj: 1
+        radelem: 0.5
+        type: Li
+        chemflag: 0
+        bnormflag: 0
+        wselfallflag: 0
+        bzeroflag: 1
+        quadraticflag: 1
+    }
+    {
+        calculator: LAMMPSSNAP
+        energy: 1
+        force: 1
+        stress: 0
+    }
+    {
+        Li: 0
+    }
+    {
+        group_sections:
+        [
+            name
+            training_size
+            testing_size
+            eweight
+            fweight
+            vweight
+        ]
+        group_types: str float float float float float
+        random_sampling: "0"
+        smartweights: "0"
+        BOLTZT: ""
+        "Li_JCPA_training_of AIMD NVT": 1.0 0.0 skopt.space.Real(100,15000) skopt.space.Real(0.1,500) 1.0E-12
+        Li_JCPA_training_cell: 1.0 0.0 skopt.space.Real(100,15000) skopt.space.Real(0.1,500) 1.0E-12
+        Li_JCPA_training_surface_mp: 1.0 0.0 skopt.space.Real(100,15000) skopt.space.Real(0.1,500) 1.0E-12
+        Li_JCPA_training_Vacancy: 1.0 0.0 skopt.space.Real(100,15000) skopt.space.Real(0.1,500) 1.0E-12
+        "Li_JCPA_test_of AIMD NVT": 0.0 1.0 20 1 1.0E-12
+        Li_JCPA_test_cell: 0.0 1.0 20 1 1.0E-12
+        Li_JCPA_test_surface_mp: 0.0 1.0 20 1 1.0E-12
+        Li_JCPA_test_Vacancy: 0.0 1.0 20 1 1.0E-12
+    }
+    {
+        memory: ""
+        override: "0"
+    }
+    {
+        metrics: newsnap_metrics.md
+        potential: q_6_Li
+    }
+    {
+        dataPath: ../../../input_data
+    }
+    {
+        units: metal
+        atom_style: atomic
+        pair_style: zero 10.0
+        pair_coeff: * *
+    }
+    {
+        scraper: XYZ
+    }
+    {
+        solver: SVD
+        normweight: ""
+        normratio: "0.5"
+        detailed_errors: "1"
+        compute_testerrs: "1"
+    }
+    {
+        dump_descriptors: "0"
+        dump_truth: "0"
+        dump_weights: "0"
+    }
+]

@@ -1,0 +1,15 @@
+units metal
+atom_style atomic
+
+read_data in.data
+
+pair_style
+pair_coeff test test
+
+mass
+
+compute peratom all pe/atom
+
+dump 1 all custom 1 *.dat id type x y z fx fy fz c_peratom
+
+run 0

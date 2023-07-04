@@ -1,0 +1,93 @@
+[
+    {
+        fitting_executable: fitsnap3
+        lammps_executable: ""
+        base_directory: ./
+        atomic_numbers: 6
+        project_name: opt_SNAP
+        sweep_name: q_5_C_test_gap
+        mpi_nodes: "1"
+        mpi_cores_per_node: "128"
+        test_on_train: False
+        error_method: rmse
+        error_energy_ratio: 0.96
+    }
+    {
+        numTypes: 1
+        twojmax: 10
+        rcutfac: 3.7
+        rfac0: skopt.space.Real(0.70,1.5)
+        rmin0: 0
+        wj: 1
+        radelem: 0.5
+        type: C
+        chemflag: 0
+        bnormflag: 0
+        wselfallflag: 0
+        bzeroflag: 1
+        quadraticflag: 1
+    }
+    {
+        calculator: LAMMPSSNAP
+        energy: 1
+        force: 1
+        stress: 0
+    }
+    {
+        "C":148.314002
+    }
+    {
+        group_sections:
+        [
+            name
+            training_size
+            testing_size
+            eweight
+            fweight
+            vweight
+        ]
+        group_types: str float float float float float
+        random_sampling: "0"
+        smartweights: "0"
+        BOLTZT: ""
+        "bulk_amo_train":"1.0 0.0 skopt.space.Real(10,10000) skopt.space.Real(0.1,100) 1.0E-12",
+        "bulk_cryst_train":"1.0 0.0 skopt.space.Real(10,10000) skopt.space.Real(0.1,100) 1.0E-12",
+        "cluster_train":"1.0 0.0 skopt.space.Real(10,10000) skopt.space.Real(0.1,100) 1.0E-12",
+        "surf_amo_train":"1.0 0.0 skopt.space.Real(10,10000) skopt.space.Real(0.1,100) 1.0E-12",
+        "split_test":"0.0 1.0 20 1 1.0E-12",
+        "_random_spheres":"0.0 1.0 20 1 1.0E-12",
+        "high_t_md_":"0.0 1.0 20 1 1.0E-12"
+    }
+    {
+        memory: ""
+        override: "0"
+    }
+    {
+        metrics: newsnap_metrics.md
+        potential: C_gap_q
+    }
+    {
+        dataPath: ../../../input_data
+    }
+    {
+        units: metal
+        atom_style: atomic
+        pair_style: zero 10.0
+        pair_coeff: * *
+    }
+    {
+        scraper: XYZ
+    }
+    {
+        solver: SVD
+        normweight: ""
+        normratio: "0.5"
+        detailed_errors: "1"
+        compute_testerrs: "1"
+    }
+    {
+        dump_descriptors: "0"
+        dump_truth: "0"
+        dump_weights: "0"
+    }
+]
