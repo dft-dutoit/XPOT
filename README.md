@@ -1,6 +1,8 @@
 # XPOT - Cross-platform optimizer for machine-learning interatomic potentials
 
-This software package provides an interface to machine learning (ML) potential fitting methods and allows for the automated optimization of relevant hyperparameters.
+This software package provides an interface to machine learning (ML) potential fitting methods and allows for the automated optimization of relevant hyperparameters. 
+
+Work continues on XPOT, including updating QoL features, easy pip installation, and documentation.
 
 ### Installation Instructions
 
