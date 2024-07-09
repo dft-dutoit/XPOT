@@ -16,9 +16,9 @@ cd xpot
 pip install --upgrade .
 ```
 
-After this - you must install pacemaker, gap_fit, fitSNAP, and/or mace yourself, for fitting to work properly.
+After this - you must install pacemaker, gap_fit, and/or fitSNAP yourself, for fitting to work properly.
 
-Python Packages:
+Required Python Packages:
 - LAMMPS python interface
 - scikit-optimize
 - numpy
@@ -35,6 +35,6 @@ Python Packages:
 
 To use XPOT, please check out the example notebooks & python files included in the examples folder. These examples give walkthroughs for using the code. The documentation can be compiled and viewed with sphinx. In the near future, the documentation will be hosted online and linked here. 
 
-## Original Data for JCP 2023 Paper
+### Original Data for JCP 2023 Paper
 
 The current files are updated to be compatible with the latest version of XPOT. The original files for the JCP 2023 paper can be found in the v1.0.0 XPOT-2023 release.
