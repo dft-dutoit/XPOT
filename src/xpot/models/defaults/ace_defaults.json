@@ -1,0 +1,85 @@
+{   
+    "cutoff": 5,
+    "seed": 42,
+    "metadata": {
+        "purpose": "Potential fit"
+    },
+    "data": {
+        "filename": "input_data/training.pckl.gzip",
+        "test_filename": "",
+        "test_size": ""
+    },
+    "potential": {
+        "deltaSplineBins": 0.001,
+        "element": "",
+        "embeddings": {
+            "definition": {
+                "npot": "FinnisSinclairShiftedScaled",
+                "fs_parameters": [1,1,1,0.5],
+                "ndensity": 2,
+                "rho_core_cut": "",
+                "drho_core_cut": ""
+            }
+        },
+        "rankmax": "",
+        "bonds": {
+            "definition": {
+                "radbase": "SBessel",
+                "radparameters": [5.25],
+                "rcut": 5,
+                "dcut": 0.01,
+                "r_in": "",
+                "delta_in": "",
+                "core-repulsion": "",
+                "NameofCutoffFunction": ""
+            }
+        },
+        "functions": {
+            "UNARY": {
+                "nradmax_by_orders": [15,3,2,2,1],
+                "lmax_by_orders": [0,2,2,1,1]
+            },
+            "BINARY": {
+                "nradmax_by_orders": [15,2,2,2],
+                "lmax_by_orders": [0,2,2,1]
+            },
+            "ALL": {
+                "nradmax_by_orders": [15,2,2,2],
+                "lmax_by_orders": [0,2,2,1]
+            },  
+        "initial_potential": ""
+        }
+    },
+    "fit": {
+        "loss": {
+            "kappa": "auto",
+            "L1_coeffs": 0,
+            "L2_coeffs": 0,
+            "w0_rad": 0,
+            "w1_rad": 0,
+            "w2_rad": 0,
+            "w1_coeffs": 0,
+            "w2_coeffs": 0,
+            "w_orth": ""
+        },
+        "optimizer": "BFGS",
+        "options": "",
+        "maxiter": 1000,
+        "repulsion": "",
+        "trainable_parameters": "",
+        "fit_cycles": "",
+        "noise_relative_sigma":"",
+        "noise_absolute_sigma":"",
+        "randomize_func_coeffs": "",
+        "ladder_step":"",
+        "ladder_type":"",
+        "callbacks":{}
+    },
+    "backend": {
+        "evaluator": "tensorpot",
+        "batch_size": 50,
+        "batch_size_reduction": "True",
+        "batch_size_reduction_factor": 2,
+        "display_step": 20
+    }
+}

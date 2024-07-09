@@ -1,0 +1,235 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# ACE Optimisation using XPOT\n",
+    "\n",
+    "This is a simple example of optimising parameters for ACE models using the XPOT package. We start by initialising an instance of the `PACE` class, which reads in the input file and sets up everything required for the PACE model to be fitted by the optimiser. The input file can be found in the examples folder."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from xpot.ace import *\n",
+    "\n",
+    "mlip = PACE(\"../../../examples/ace_input.hjson\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now that the ML potential object is set up, we can inspect the parameters that have been defined for optimisation in the input file, and check that those have been correctly parsed by the `PACE` class. The second cell prints the entire parameter dictionary, and will be used throughout the optimisation and updated with the new parameter values for each iteration."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "{(('potential', 'embeddings', 'ALL', 'fs_parameters', '3'),): Real(low=0.1, high=2, prior='uniform', transform='identity'), (('potential', 'bonds', 'ALL', 'radparameters', '0'),): Real(low=1, high=10, prior='uniform', transform='identity'), (('potential', 'bonds', 'ALL', 'rcut'),): Real(low=3, high=6, prior='uniform', transform='identity'), (('potential', 'bonds', 'ALL', 'dcut'),): Real(low=0.001, high=0.1, prior='uniform', transform='identity'), (('potential', 'functions', 'number_of_functions_per_element'),): Integer(low=10, high=100, prior='uniform', transform='identity')}\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(mlip.optimisation_space)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "{'cutoff': 6, 'seed': 42, 'metadata': OrderedDict([('purpose', 'Potential fit')]), 'data': OrderedDict([('filename', '/u/vld/scat7402/Documents/xpot-v2/examples/cu_icams.pckl.gzip'), ('test_size', 0.1)]), 'potential': OrderedDict([('deltaSplineBins', 0.001), ('elements', ['Cu']), ('embeddings', OrderedDict([('ALL', OrderedDict([('npot', 'FinnisSinclairShiftedScaled'), ('fs_parameters', [1, 1, 1, 'skopt.space.Real(0.1, 2)']), ('ndensity', 2), ('rho_core_cut', 3000), ('drho_core_cut', 500)]))])), ('rankmax', ''), ('bonds', OrderedDict([('ALL', OrderedDict([('radbase', 'SBessel'), ('radparameters', ['skopt.space.Real(1,10)']), ('rcut', 'skopt.space.Real(3,6)'), ('dcut', 'skopt.space.Real(0.001, 0.1)'), ('r_in', ''), ('delta_in', ''), ('core-repulsion', ''), ('NameofCutoffFunction', 'cos')]))])), ('functions', OrderedDict([('number_of_functions_per_element', 'skopt.space.Integer(10,100)'), ('ALL', OrderedDict([('nradmax_by_orders', [15, 6, 4, 3, 2, 2]), ('lmax_by_orders', [0, 4, 3, 2, 1, 0]), ('coeffs_init', '')])), ('initial_potential', '')]))]), 'fit': OrderedDict([('loss', OrderedDict([('kappa', 'auto'), ('L1_coeffs', 1e-08), ('L2_coeffs', 1e-08), ('w0_rad', 1e-08), ('w1_rad', 1e-08), ('w2_rad', 1e-08), ('w1_coeffs', 0), ('w2_coeffs', 0), ('w_orth', '')])), ('optimizer', 'BFGS'), ('options', ''), ('maxiter', 10), ('repulsion', 'auto'), ('trainable_parameters', 'ALL'), ('fit_cycles', ''), ('noise_relative_sigma', ''), ('noise_absolute_sigma', ''), ('randomize_func_coeffs', ''), ('callbacks', '')]), 'backend': OrderedDict([('evaluator', 'tensorpot'), ('batch_size', 50), ('batch_size_reduction', 'True'), ('batch_size_reduction_factor', 2), ('display_step', 50), ('gpu_config', OrderedDict([('mem_limit', 0)]))])}\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(mlip.ace_total)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now that the ML potential object is set up, we can import and initialise the optimiser which wraps around the ML potential object. the kwargs dictionary passes optimization parameters to the optimizer, possible values and their defaults are documented at [`scikit_optimize.Optimizer`](https://scikit-optimize.github.io/dev/modules/generated/skopt.Optimizer.html#skopt.Optimizer)."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Initialised CSV Files\n"
+     ]
+    }
+   ],
+   "source": [
+    "from xpot.optimiser import *\n",
+    "\n",
+    "kwargs = {\n",
+    "        \"n_initial_points\": 5,\n",
+    "        }\n",
+    "\n",
+    "opt = NamedOptimiser(mlip.optimisation_space, mlip.sweep_path, kwargs)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We limit the number of iterations to 10, and perform 10 fits and record their loss values. By using `optimiser.run_optimisation` we run a fit and evaluate all of the parameters & results produced from a single iteration."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "...\n",
+      "         Current function value: 0.000129\n",
+      "         Iterations: 10\n",
+      "         Function evaluations: 18\n",
+      "         Gradient evaluations: 18\n",
+      "Fitting took  26.63 seconds\n"
+     ]
+    }
+   ],
+   "source": [
+    "n_calls = 10\n",
+    "\n",
+    "while opt.iter <= n_calls:\n",
+    "    opt.run_optimisation(mlip.fit, path = mlip.sweep_path)\n",
+    "    print(f\"Iteration {opt.iter} of {n_calls} complete\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Finally, after we have completed the optimisation across the desired number of iterations (or achieved the desired loss value), we produce the final tables of the errors and parameters from the optimisation sweep."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "opt.tabulate_final_results(mlip.sweep_path)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/markdown": [
+       "|   iteration |      loss |   potential embeddings ALL fs_parameters 3 |   potential bonds ALL radparameters 0 |   potential bonds ALL rcut |   potential bonds ALL dcut |   potential functions number_of_functions_per_element |\n",
+       "|-------------|-----------|--------------------------------------------|---------------------------------------|----------------------------|----------------------------|-------------------------------------------------------|\n",
+       "|           1 | 0.0979038 |                                   1.61343  |                               2.65091 |                    5.33907 |                 0.0600882  |                                                    50 |\n",
+       "|           2 | 0.145873  |                                   0.289952 |                               5.13324 |                    4.00113 |                 0.0151438  |                                                    69 |\n",
+       "|           3 | 0.33725   |                                   0.207182 |                               7.49799 |                    5.81566 |                 0.0010771  |                                                    99 |\n",
+       "|           4 | 0.488753  |                                   1.27321  |                               6.50488 |                    3.0212  |                 0.00328318 |                                                    57 |\n",
+       "|           5 | 0.0281972 |                                   0.859736 |                               1.41999 |                    5.92127 |                 0.0240444  |                                                    18 |\n",
+       "|           6 | 0.13738   |                                   1.27175  |                               1.89052 |                    3.08069 |                 0.0176302  |                                                    76 |\n",
+       "|           7 | 0.124383  |                                   0.853054 |                               1.2452  |                    5.4919  |                 0.0735336  |                                                    10 |\n",
+       "|           8 | 0.017491  |                                   0.333089 |                               3.85654 |                    6       |                 0.0821501  |                                                    22 |\n",
+       "|           9 | 0.0359094 |                                   0.1      |                               2.78763 |                    6       |                 0.0375153  |                                                    11 |\n",
+       "|          10 | 0.0457358 |                                   0.1      |                               3.84574 |                    6       |                 0.001      |                                                    63 |"
+      ],
+      "text/plain": [
+       "<IPython.core.display.Markdown object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "from IPython.display import Markdown, display\n",
+    "\n",
+    "display(Markdown(\"/u/vld/scat7402/Documents/xpot-v2/docs/source/notebooks/opt_ACE/test_ace/parameters_final\"))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/markdown": [
+       "|   Iteration |   Train Δ Energy |   Test Δ Energy |   Train Δ Force |   Test Δ Force |\n",
+       "|-------------|------------------|-----------------|-----------------|----------------|\n",
+       "|           1 |        0.0870784 |       0.113801  |      0.007344   |    9.72755e-08 |\n",
+       "|           2 |        0.110912  |       0.170261  |      0.0104993  |    4.09598e-07 |\n",
+       "|           3 |        0.210779  |       0.361007  |      0.0177624  |    7.78828e-07 |\n",
+       "|           4 |        0.249105  |       0.539283  |      0.023925   |    7.62856e-07 |\n",
+       "|           5 |        0.0425814 |       0.0322728 |      0.00681701 |    5.24187e-08 |\n",
+       "|           6 |        0.193064  |       0.175833  |      0.0173906  |    5.78529e-07 |\n",
+       "|           7 |        0.100966  |       0.136708  |      0.00970272 |    1.44528e-07 |\n",
+       "|           8 |        0.0404526 |       0.0199675 |      0.00693284 |    7.56379e-08 |\n",
+       "|           9 |        0.0426858 |       0.0448403 |      0.00482539 |    2.53033e-08 |\n",
+       "|          10 |        0.0463328 |       0.0529222 |      0.00469056 |    7.54147e-08 |"
+      ],
+      "text/plain": [
+       "<IPython.core.display.Markdown object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "from IPython.display import Markdown, display\n",
+    "\n",
+    "display(Markdown(\"/u/vld/scat7402/Documents/xpot-v2/docs/source/notebooks/opt_ACE/test_ace/atomistic_errors_final\"))"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "xpot-dev",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.10.13"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}

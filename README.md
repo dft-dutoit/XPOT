@@ -1,17 +1,24 @@
-# XPOT - Cross-platform optimizer for machine-learning interatomic potentials
+![xpot-logo](images/xpot-logo.png)
 
-This software package provides an interface to machine learning (ML) potential fitting methods and allows for the automated optimization of relevant hyperparameters. 
+# XPOT: Cross-Platform Hyperparameter Optimizer for Machine Learning Potentials
 
-Work continues on XPOT, including updating QoL features, easy pip installation, and documentation.
+This software package provides an interface to machine learning (ML) potential fitting methods and allows for the automated optimization of relevant hyperparameters.
+
+The software is described in a [paper in the Special Machine learning edition of JCP](https://pubs.aip.org/aip/jcp/article/159/2/024803/2901815). Please cite this paper when using XPOT in your research.
 
 ### Installation Instructions
 
-Required Software:
-- LAMMPS (compiled with packages required for potential styles)
-- Python >= 3.8
-- cmake >= 3
+Only compatible with `python >= 3.10`. Older python version may work, but have not been tested.
 
-Required Python Packages:
+```
+git clone https://github.com/dft-dutoit/XPOT.git
+cd xpot
+pip install --upgrade .
+```
+
+After this - you must install pacemaker, gap_fit, fitSNAP, and/or mace yourself, for fitting to work properly.
+
+Python Packages:
 - LAMMPS python interface
 - scikit-optimize
 - numpy
@@ -22,61 +29,12 @@ Required Python Packages:
 - tabulate
 - quippy-ase >=0.9.0 (GAP potentials only)
 - FitSNAP (SNAP potentials only) https://fitsnap.github.io/
-
-1. Create a virtual environment, and insure that cmake is installed.
-
-2. pip install the required python packages, before adding FitSNAP and LAMMPS. Specific instructions for these packages can be found in their respective documentation pages, listed above. A requirements.txt file is provided for all other packages for ease of installation.
-
-3. Clone this github repository to a location of your choice.
-
-4. place the following into your .bashrc. `export PYTHONPATH="XPOT_FOLDER_PATH":$PYTHONPATH`.
-
-5. Try `import xpot` in python. 
+- pacemaker (ACE potentials only) https://pacemaker.readthedocs.io/
 
 ### Usage
 
-To import all modules required, please run the following code at the top of your python script. This will make sure that you can call optimization of any potential style.
-```
-from xpot.transfer_funcs.optimizers import *
-from xpot.transfer_funcs.general import *
-```
+To use XPOT, please check out the example notebooks & python files included in the examples folder. These examples give walkthroughs for using the code. The documentation can be compiled and viewed with sphinx. In the near future, the documentation will be hosted online and linked here. 
 
-In running xpot, input files are specified as follows:
-```
-python your-script.py input_file.hjson
-```
-Make sure that the input script is accessible on the node that you submit to if using xpot on a cluster.
+## Original Data for JCP 2023 Paper
 
-There are three examples to ensure that your xpot installation is working correctly. These are located in the examples folder. To run these examples, please check the README.md files in each folder.
-
-## FAQ
-
-### **What fitting methods are included in xpot?**
-
-Currently SNAP (including qSNAP and pytorch potentials with SNAP descriptors) and GAP are available. ACE potentials via pacemaker are in active development, and will be included in the next release.
-
-Development for expansion to other methods will follow.
-
-### __What are the best practices for using xpot?__
-
-xpot users are recommended to start with pilot runs, to check the hardware limitations of thier system, before starting an optimization sweep. xpot works best with robust testing sets, to accurately measure the extrapolative performance of the potentials fitted.
-
-Users are required to make sure that the parameter space that they optimize over is within the limitations of their hardware. Optimizing convergence parameters over large ranges often results in the most expensive parameters being chosen during optimization. 
-
-The more constrained the search space is, the fewer iterations are *generally* required to reach a stage with diminishing returns.
-
-Several functions are provided for ease of use (conversion between dataset types, extraction of the best potential etc.)
-
-### **How parallelisable is xpot?**
-
-Currently, a single optimization run occurs "serially". Each fit can be parallelised dependent on the fitting method, but xpot itself does not support asynchronous optimization. This is a priority and currently in development for future versions.
-
-### **Is xpot compatible with multi-objective optimization?**
-
-Currently, xpot does not have multi-objective optimization included. In general, we suggest that users select convergence hyperparameters manually, and then optimize the hyperparameters that do not significantly affect the resource cost.
-
-In the future, we aim to include multi-objective optimization in XPOT.
-
-### **What $\alpha$ value should I use?**
-
-We recommend either performing a sweep of $\alpha$ values, or selecting the alpha value based on desired energy and force loss values. By comparing these values, you can find a good $\alpha$ for your system.
+The current files are updated to be compatible with the latest version of XPOT. The original files for the JCP 2023 paper can be found in the v1.0.0 XPOT-2023 release.

@@ -1,0 +1,89 @@
+{
+    xpot:{
+        "fitting_executable" : "fitsnap3",
+        "lammps_executable" : "",
+        "base_directory" : "./",
+        "atomic_numbers" : "14"
+        "project_name" : "opt_SNAP",
+        "sweep_name" : "q_j8_150_rmse_75",
+        alpha: 0.75
+        training_data: ../../../input_data/valid/total_train.xyz
+        validaton_data: ../../../input_data/valid/total_test.xyz
+    },
+    "[BISPECTRUM]":{   
+        "numTypes":1,                       # INT
+        "twojmax":8,                      # INT
+        "rcutfac":"skopt.space.Real(3,6)",  # REAL
+        "rfac0":"skopt.space.Real(0.5,1.5)",                        # REAL
+        "rmin0":0,                        # REAL
+        "wj":1.0,                           # REAL  # Same number of wj_{INT} variables as numTypes
+        "radelem":0.5,                      # REAL # Same number of radelem_{INT} variables as numTypes
+        "type":"Si",                         # STR  # Same number of radelem_{INT} variables as numTypes
+        "chemflag":0,                       # BOOL
+        "bnormflag":0,                      # BOOL
+        "wselfallflag":0,                   # BOOL
+        "bzeroflag":1,                      # BOOL
+        "quadraticflag":1                   # BOOL
+    },
+    "[CALCULATOR]":{
+        "calculator":"LAMMPSSNAP",          # STR 
+        "energy":1,                         # BOOL
+        "force":1,                          # BOOL
+        "stress":0                          # BOOL
+    },
+    "[ESHIFT]":{
+        "Si":0.0                            # REAL
+    },
+    "[GROUPS]":{
+        "group_sections":["name","training_size","testing_size","eweight","fweight","vweight"],                # possible columns are: name, size, eweight, fweight, vweight, training_size, testing_size.
+        "group_types":"str float float float float float",
+        "random_sampling":"0",
+        "smartweights":"0",                 # BOOL  # If true, a new grouplist will be made where the weights for energies, forces, and virials are 1/N_rows where N_rows is 
+        "BOLTZT":"",                        # Advanced feature. Use a Boltzmann weighting to training at this temperature.
+                                            # From here on out it's a table where the values are as per the group_sections and group_types.
+        "si_norm_train":"1.0 0.0 skopt.space.Real(100,15000) skopt.space.Real(0.1,500) 1.0E-12",
+        "si_strains_train":"1.0 0.0 skopt.space.Real(100,15000) skopt.space.Real(0.1,500) 1.0E-12",
+        "si_surface_mp_train":"1.0 0.0 skopt.space.Real(100,15000) skopt.space.Real(0.1,500) 1.0E-12",
+        "si_vacancy_train":"1.0 0.0 skopt.space.Real(100,15000) skopt.space.Real(0.1,500) 1.0E-12",
+        "si_norm_test":"0.0 1.0 20 1 1.0E-12",
+        "si_strains_test":"0.0 1.0 20 1 1.0E-12",
+        "si_surface_mp_test":"0.0 1.0 20 1 1.0E-12",
+        "si_vacancy_test":"0.0 1.0 20 1 1.0E-12"
+    },
+    "[MEMORY]":{
+        "memory":"",
+        "override":"0"                      # BOOL # Allow "A" matrix to take over 50% of RAM.
+    },
+    "[OUTFILE]":{
+        "metrics":"newsnap_metrics.md",
+        "potential":"si_j8_q"
+    },
+    "[PATH]":{
+        "dataPath":"../../../input_data",             # STR   # Path to the data files.
+    },
+    "[REFERENCE]":{
+        "units":"metal",
+        "atom_style":"atomic"
+        #"pair_style":"hybrid/overlay zero 10.0 zbl 4.0 4.8",
+        "pair_style":"zero 10.0",
+	    "pair_coeff":"* *"
+        #"pair_coeff1":"* * zero",
+        #"pair_coeff2":"* * zbl 14 14"
+                                            # Then from here on in it's entirely LAMMPS dependent of what pair styles you want to have underneath the SNAP fit.
+    },
+    "[SCRAPER]":{
+        "scraper":"XYZ"                     # STR   # Type of data scraped. JSON or XYZ.
+    },
+    "[SOLVER]":{
+        "solver":"SVD",                     # STR   # Can be any of SVD, LASSO, RIDGE, ELASTIC.
+        "normweight":"",                    # REAL  # Only used if solver!=SVD
+        "normratio":"0.5",                  # REAL  # Only used if solver==ELASTIC
+        "detailed_errors":"1",              # BOOL  # DO NOT CHANGE. If true, the detailed error metrics will be printed.
+        "compute_testerrs":"1"              # BOOL  # If less than the full training set is used in testing, =1 will calculate the errors for the remaining unused testing dataset.
+    },
+    "[EXTRAS]":{
+        "dump_descriptors":"0",             # BOOL
+        "dump_truth":"0",                   # BOOL
+        "dump_weights":"0",                 # BOOL
+    }
+}

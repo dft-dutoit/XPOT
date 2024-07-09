@@ -1,0 +1,101 @@
+{
+    "xpot": {
+        fitting_executable: pacemaker
+        project_name: opt_ACE
+        sweep_name: test_ace
+        error_method: rmse
+        alpha: 0.7,        
+    }
+    "cutoff": 6,
+    "seed": 42
+    "metadata": {
+        "purpose": "Potential fit"
+        },
+    "data": {
+        "filename": "/u/vld/scat7402/Documents/xpot-v2/examples/cu_icams.pckl.gzip",
+        "test_size": 0.10
+    },
+    "potential": {
+        "deltaSplineBins": 0.001,
+        "elements": ["Cu"],
+        "embeddings": {
+            "ALL": {
+                "npot": "FinnisSinclairShiftedScaled",
+                "fs_parameters": [1,1,1,"skopt.space.Real(0.1, 2)"],
+                "ndensity": 2,
+                "rho_core_cut": 3000,
+                "drho_core_cut": 500
+            }
+        },
+        "rankmax": "",
+        "bonds": {
+            "ALL": {
+                "radbase": "SBessel",
+                "radparameters": ["skopt.space.Real(1,10)"],
+                "rcut": "skopt.space.Real(3,6)",
+                "dcut": "skopt.space.Real(0.001, 0.1)",
+                "r_in": "",
+                "delta_in": "",
+                "core-repulsion": "",
+                "NameofCutoffFunction": "cos"
+            }
+        },
+        "functions": {
+            "number_of_functions_per_element": "skopt.space.Integer(10,100)",
+            "ALL": {
+                "nradmax_by_orders": [15,6,4,3,2,2],
+                "lmax_by_orders": [0,4,3,2,1,0],
+                "coeffs_init": ""
+            },
+        "initial_potential": ""
+        }
+    },
+    "fit": {
+        "loss": {
+            "kappa": "auto",
+            "L1_coeffs": 1e-8,
+            "L2_coeffs": 1e-8,
+            "w0_rad": 1e-8,
+            "w1_rad": 1e-8,
+            "w2_rad": 1e-8,
+            "w1_coeffs": 0,
+            "w2_coeffs": 0,
+            "w_orth": ""
+        },
+        // "weighting": {
+        //     "type": "EnergyBasedWeightingPolicy",
+        //     "filename": "",
+        //     "nfit": 20000,
+        //     "cutoff": "",
+        //     "DEup": 1000,
+        //     "DFup": "",
+        //     "DElow": 1.0,
+        //     "DE": 1,
+        //     "DF": 1,
+        //     "wlow": "",
+        //     "energy": "convex_hull",
+        //     "reftype": "all",
+        //     "seed": 42
+        // },
+        "optimizer": "BFGS",
+        "options": "",
+        "maxiter": 10,
+        "repulsion": "auto",
+        "trainable_parameters": "ALL",
+        "fit_cycles": "",
+        "noise_relative_sigma":"",
+        "noise_absolute_sigma":"",
+        "randomize_func_coeffs": "",
+        //"ladder_step": 1000,
+        //"ladder_type":"power_order",
+        "callbacks":""
+    },
+    "backend": {
+        "evaluator": "tensorpot",
+        "batch_size": 50,
+        "batch_size_reduction": "True",
+        "batch_size_reduction_factor": 2,
+        "display_step": 50,
+        "gpu_config": {"mem_limit": 0}
+    }
+}

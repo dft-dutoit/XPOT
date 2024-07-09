@@ -1,0 +1,56 @@
+[BISPECTRUM]
+numTypes = 1
+twojmax = 10
+rcutfac = 3.7
+rfac0 = 0.8345010739117278
+rmin0 = 0
+wj = 1
+radelem = 0.5
+type = C
+chemflag = 0
+bnormflag = 0
+wselfallflag = 0
+bzeroflag = 1
+quadraticflag = 1
+[CALCULATOR]
+calculator = LAMMPSSNAP
+energy = 1
+force = 1
+stress = 0
+[ESHIFT]
+C = 148.314002
+[GROUPS]
+group_sections = name training_size testing_size eweight fweight vweight
+group_types = str float float float float float
+random_sampling = 0
+smartweights = 0
+bulk_amo_train = 1.0 0.0 9713.104256998615 32.9378708637969 1.0E-12
+bulk_cryst_train = 1.0 0.0 10000.0 58.94105846800465 1.0E-12
+cluster_train = 1.0 0.0 10.0 6.8154609802222135 1.0E-12
+surf_amo_train = 1.0 0.0 10000.0 45.68248415912456 1.0E-12
+split_test = 0.0 1.0 20 1 1.0E-12
+_random_spheres = 0.0 1.0 20 1 1.0E-12
+high_t_md_ = 0.0 1.0 20 1 1.0E-12
+[MEMORY]
+override = 0
+[OUTFILE]
+metrics = newsnap_metrics.md
+potential = C_gap_q
+[PATH]
+dataPath = ../../../input_data
+[REFERENCE]
+units = metal
+atom_style = atomic
+pair_style = zero 10.0
+pair_coeff = * *
+[SCRAPER]
+scraper = XYZ
+[SOLVER]
+solver = SVD
+normratio = 0.5
+detailed_errors = 1
+compute_testerrs = 1
+[EXTRAS]
+dump_descriptors = 0
+dump_truth = 0
+dump_weights = 0

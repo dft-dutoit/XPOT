@@ -1,0 +1,643 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="API" href="../api/index.html" /><link rel="prev" title="Optimisation Examples" href="../examples.html" />
+
+    <!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
+        <title>ACE Optimisation using XPOT - XPOT 1.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=387cc868" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" /
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">XPOT 1.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/xpot-logo.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">XPOT 1.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../examples.html">Optimisation Examples</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Optimisation Examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">ACE Optimisation using XPOT</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/index.html">API</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of API</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/models/index.html">Models</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Models</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/models/ace.html">ACE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/models/snap.html">SNAP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/models/gap.html">GAP</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/optimisers.html">Optimisers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/loaders.html">Loaders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/maths.html">Maths</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="../_sources/notebooks/ace_optimise.ipynb.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="ACE-Optimisation-using-XPOT">
+<h1>ACE Optimisation using XPOT<a class="headerlink" href="#ACE-Optimisation-using-XPOT" title="Link to this heading">¶</a></h1>
+<p>This is a simple example of optimising parameters for ACE models using the XPOT package. We start by initialising an instance of the <code class="docutils literal notranslate"><span class="pre">PACE</span></code> class, which reads in the input file and sets up everything required for the PACE model to be fitted by the optimiser. The input file can be found in the examples folder.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from xpot.ace import *
+
+mlip = PACE(&quot;../../../examples/ace_input.hjson&quot;)
+</pre></div>
+</div>
+</div>
+<p>Now that the ML potential object is set up, we can inspect the parameters that have been defined for optimisation in the input file, and check that those have been correctly parsed by the <code class="docutils literal notranslate"><span class="pre">PACE</span></code> class. The second cell prints the entire parameter dictionary, and will be used throughout the optimisation and updated with the new parameter values for each iteration.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(mlip.optimisation_space)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{((&#39;potential&#39;, &#39;embeddings&#39;, &#39;ALL&#39;, &#39;fs_parameters&#39;, &#39;3&#39;),): Real(low=0.1, high=2, prior=&#39;uniform&#39;, transform=&#39;identity&#39;), ((&#39;potential&#39;, &#39;bonds&#39;, &#39;ALL&#39;, &#39;radparameters&#39;, &#39;0&#39;),): Real(low=1, high=10, prior=&#39;uniform&#39;, transform=&#39;identity&#39;), ((&#39;potential&#39;, &#39;bonds&#39;, &#39;ALL&#39;, &#39;rcut&#39;),): Real(low=3, high=6, prior=&#39;uniform&#39;, transform=&#39;identity&#39;), ((&#39;potential&#39;, &#39;bonds&#39;, &#39;ALL&#39;, &#39;dcut&#39;),): Real(low=0.001, high=0.1, prior=&#39;uniform&#39;, transform=&#39;identity&#39;), ((&#39;potential&#39;, &#39;functions&#39;, &#39;number_of_functions_per_element&#39;),): Integer(low=10, high=100, prior=&#39;uniform&#39;, transform=&#39;identity&#39;)}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(mlip.ace_total)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;cutoff&#39;: 6, &#39;seed&#39;: 42, &#39;metadata&#39;: OrderedDict([(&#39;purpose&#39;, &#39;Potential fit&#39;)]), &#39;data&#39;: OrderedDict([(&#39;filename&#39;, &#39;/u/vld/scat7402/Documents/xpot-v2/examples/cu_icams.pckl.gzip&#39;), (&#39;test_size&#39;, 0.1)]), &#39;potential&#39;: OrderedDict([(&#39;deltaSplineBins&#39;, 0.001), (&#39;elements&#39;, [&#39;Cu&#39;]), (&#39;embeddings&#39;, OrderedDict([(&#39;ALL&#39;, OrderedDict([(&#39;npot&#39;, &#39;FinnisSinclairShiftedScaled&#39;), (&#39;fs_parameters&#39;, [1, 1, 1, &#39;skopt.space.Real(0.1, 2)&#39;]), (&#39;ndensity&#39;, 2), (&#39;rho_core_cut&#39;, 3000), (&#39;drho_core_cut&#39;, 500)]))])), (&#39;rankmax&#39;, &#39;&#39;), (&#39;bonds&#39;, OrderedDict([(&#39;ALL&#39;, OrderedDict([(&#39;radbase&#39;, &#39;SBessel&#39;), (&#39;radparameters&#39;, [&#39;skopt.space.Real(1,10)&#39;]), (&#39;rcut&#39;, &#39;skopt.space.Real(3,6)&#39;), (&#39;dcut&#39;, &#39;skopt.space.Real(0.001, 0.1)&#39;), (&#39;r_in&#39;, &#39;&#39;), (&#39;delta_in&#39;, &#39;&#39;), (&#39;core-repulsion&#39;, &#39;&#39;), (&#39;NameofCutoffFunction&#39;, &#39;cos&#39;)]))])), (&#39;functions&#39;, OrderedDict([(&#39;number_of_functions_per_element&#39;, &#39;skopt.space.Integer(10,100)&#39;), (&#39;ALL&#39;, OrderedDict([(&#39;nradmax_by_orders&#39;, [15, 6, 4, 3, 2, 2]), (&#39;lmax_by_orders&#39;, [0, 4, 3, 2, 1, 0]), (&#39;coeffs_init&#39;, &#39;&#39;)])), (&#39;initial_potential&#39;, &#39;&#39;)]))]), &#39;fit&#39;: OrderedDict([(&#39;loss&#39;, OrderedDict([(&#39;kappa&#39;, &#39;auto&#39;), (&#39;L1_coeffs&#39;, 1e-08), (&#39;L2_coeffs&#39;, 1e-08), (&#39;w0_rad&#39;, 1e-08), (&#39;w1_rad&#39;, 1e-08), (&#39;w2_rad&#39;, 1e-08), (&#39;w1_coeffs&#39;, 0), (&#39;w2_coeffs&#39;, 0), (&#39;w_orth&#39;, &#39;&#39;)])), (&#39;optimizer&#39;, &#39;BFGS&#39;), (&#39;options&#39;, &#39;&#39;), (&#39;maxiter&#39;, 10), (&#39;repulsion&#39;, &#39;auto&#39;), (&#39;trainable_parameters&#39;, &#39;ALL&#39;), (&#39;fit_cycles&#39;, &#39;&#39;), (&#39;noise_relative_sigma&#39;, &#39;&#39;), (&#39;noise_absolute_sigma&#39;, &#39;&#39;), (&#39;randomize_func_coeffs&#39;, &#39;&#39;), (&#39;callbacks&#39;, &#39;&#39;)]), &#39;backend&#39;: OrderedDict([(&#39;evaluator&#39;, &#39;tensorpot&#39;), (&#39;batch_size&#39;, 50), (&#39;batch_size_reduction&#39;, &#39;True&#39;), (&#39;batch_size_reduction_factor&#39;, 2), (&#39;display_step&#39;, 50), (&#39;gpu_config&#39;, OrderedDict([(&#39;mem_limit&#39;, 0)]))])}
+</pre></div></div>
+</div>
+<p>Now that the ML potential object is set up, we can import and initialise the optimiser which wraps around the ML potential object. the kwargs dictionary passes optimization parameters to the optimizer, possible values and their defaults are documented at <code class="docutils literal notranslate"><span class="pre">`scikit_optimize.Optimizer</span></code> &lt;<a class="reference external" href="https://scikit-optimize.github.io/dev/modules/generated/skopt.Optimizer.html#skopt.Optimizer">https://scikit-optimize.github.io/dev/modules/generated/skopt.Optimizer.html#skopt.Optimizer</a>&gt;`__.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from xpot.optimiser import *
+
+kwargs = {
+        &quot;n_initial_points&quot;: 5,
+        }
+
+opt = NamedOptimiser(mlip.optimisation_space, mlip.sweep_path, kwargs)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Initialised CSV Files
+</pre></div></div>
+</div>
+<p>We limit the number of iterations to 10, and perform 10 fits and record their loss values. By using <code class="docutils literal notranslate"><span class="pre">optimiser.run_optimisation</span></code> we run a fit and evaluate all of the parameters &amp; results produced from a single iteration.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>n_calls = 10
+
+while opt.iter &lt;= n_calls:
+    opt.run_optimisation(mlip.fit, path = mlip.sweep_path)
+    print(f&quot;Iteration {opt.iter} of {n_calls} complete&quot;)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+...
+         Current function value: 0.000129
+         Iterations: 10
+         Function evaluations: 18
+         Gradient evaluations: 18
+Fitting took  26.63 seconds
+</pre></div></div>
+</div>
+<p>Finally, after we have completed the optimisation across the desired number of iterations (or achieved the desired loss value), we produce the final tables of the errors and parameters from the optimisation sweep.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>opt.tabulate_final_results(mlip.sweep_path)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from IPython.display import Markdown, display
+
+display(Markdown(&quot;/u/vld/scat7402/Documents/xpot-v2/docs/source/notebooks/opt_ACE/test_ace/parameters_final&quot;))
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>iteration</p></th>
+<th class="head"><p>loss</p></th>
+<th class="head"><p>potential embeddings ALL fs_parameters 3</p></th>
+<th class="head"><p>potential bonds ALL radparameters 0</p></th>
+<th class="head"><p>potential bonds ALL rcut</p></th>
+<th class="head"><p>potential bonds ALL dcut</p></th>
+<th class="head"><p>potential functions number_of_functions_per_element</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>0.0979038</p></td>
+<td><p>1.61343</p></td>
+<td><p>2.65091</p></td>
+<td><p>5.33907</p></td>
+<td><p>0.0600882</p></td>
+<td><p>50</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>0.145873</p></td>
+<td><p>0.289952</p></td>
+<td><p>5.13324</p></td>
+<td><p>4.00113</p></td>
+<td><p>0.0151438</p></td>
+<td><p>69</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>0.33725</p></td>
+<td><p>0.207182</p></td>
+<td><p>7.49799</p></td>
+<td><p>5.81566</p></td>
+<td><p>0.0010771</p></td>
+<td><p>99</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>0.488753</p></td>
+<td><p>1.27321</p></td>
+<td><p>6.50488</p></td>
+<td><p>3.0212</p></td>
+<td><p>0.00328318</p></td>
+<td><p>57</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>0.0281972</p></td>
+<td><p>0.859736</p></td>
+<td><p>1.41999</p></td>
+<td><p>5.92127</p></td>
+<td><p>0.0240444</p></td>
+<td><p>18</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p>0.13738</p></td>
+<td><p>1.27175</p></td>
+<td><p>1.89052</p></td>
+<td><p>3.08069</p></td>
+<td><p>0.0176302</p></td>
+<td><p>76</p></td>
+</tr>
+<tr class="row-even"><td><p>7</p></td>
+<td><p>0.124383</p></td>
+<td><p>0.853054</p></td>
+<td><p>1.2452</p></td>
+<td><p>5.4919</p></td>
+<td><p>0.0735336</p></td>
+<td><p>10</p></td>
+</tr>
+<tr class="row-odd"><td><p>8</p></td>
+<td><p>0.017491</p></td>
+<td><p>0.333089</p></td>
+<td><p>3.85654</p></td>
+<td><p>6</p></td>
+<td><p>0.0821501</p></td>
+<td><p>22</p></td>
+</tr>
+<tr class="row-even"><td><p>9</p></td>
+<td><p>0.0359094</p></td>
+<td><p>0.1</p></td>
+<td><p>2.78763</p></td>
+<td><p>6</p></td>
+<td><p>0.0375153</p></td>
+<td><p>11</p></td>
+</tr>
+<tr class="row-odd"><td><p>10</p></td>
+<td><p>0.0457358</p></td>
+<td><p>0.1</p></td>
+<td><p>3.84574</p></td>
+<td><p>6</p></td>
+<td><p>0.001</p></td>
+<td><p>63</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from IPython.display import Markdown, display
+
+display(Markdown(&quot;/u/vld/scat7402/Documents/xpot-v2/docs/source/notebooks/opt_ACE/test_ace/atomistic_errors_final&quot;))
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Iteration</p></th>
+<th class="head"><p>Train Δ Energy</p></th>
+<th class="head"><p>Test Δ Energy</p></th>
+<th class="head"><p>Train Δ Force</p></th>
+<th class="head"><p>Test Δ Force</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>0.0870784</p></td>
+<td><p>0.113801</p></td>
+<td><p>0.007344</p></td>
+<td><p>9.72755e-08</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>0.110912</p></td>
+<td><p>0.170261</p></td>
+<td><p>0.0104993</p></td>
+<td><p>4.09598e-07</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>0.210779</p></td>
+<td><p>0.361007</p></td>
+<td><p>0.0177624</p></td>
+<td><p>7.78828e-07</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>0.249105</p></td>
+<td><p>0.539283</p></td>
+<td><p>0.023925</p></td>
+<td><p>7.62856e-07</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>0.0425814</p></td>
+<td><p>0.0322728</p></td>
+<td><p>0.00681701</p></td>
+<td><p>5.24187e-08</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p>0.193064</p></td>
+<td><p>0.175833</p></td>
+<td><p>0.0173906</p></td>
+<td><p>5.78529e-07</p></td>
+</tr>
+<tr class="row-even"><td><p>7</p></td>
+<td><p>0.100966</p></td>
+<td><p>0.136708</p></td>
+<td><p>0.00970272</p></td>
+<td><p>1.44528e-07</p></td>
+</tr>
+<tr class="row-odd"><td><p>8</p></td>
+<td><p>0.0404526</p></td>
+<td><p>0.0199675</p></td>
+<td><p>0.00693284</p></td>
+<td><p>7.56379e-08</p></td>
+</tr>
+<tr class="row-even"><td><p>9</p></td>
+<td><p>0.0426858</p></td>
+<td><p>0.0448403</p></td>
+<td><p>0.00482539</p></td>
+<td><p>2.53033e-08</p></td>
+</tr>
+<tr class="row-odd"><td><p>10</p></td>
+<td><p>0.0463328</p></td>
+<td><p>0.0529222</p></td>
+<td><p>0.00469056</p></td>
+<td><p>7.54147e-08</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="../api/index.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">API</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="../examples.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Optimisation Examples</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, D. F. Thomas du Toit
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=56dcb7b8"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=4e2eecee"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    </body>
+</html>

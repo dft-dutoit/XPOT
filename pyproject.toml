@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+ 
+[project]
+name = "xpot"
+version = "1.2.0"
+description = "Cross-Platorm Optimser for Hyperparameter Tuning"
+readme = "README.md"
+dependencies = [
+    "scikit-optimize",
+    "numpy",
+    "hjson",
+    "pandas",
+    "matplotlib",
+    "ase",
+    "tabulate"
+]
+
+[tool.ruff]
+line-length = 80
+indent-width = 4
+target-version = "py310"
+ 
+[tool.ruff.lint]
+select = ["E", "F", "UP", "B", "SIM", "I"]
+ignore = ["SIM300", "E402", "E703", "F722", "UP037", "F821", "B018", "B905"]
+fixable = ["ALL"]
+unfixable = []
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+ 
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+ 
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"

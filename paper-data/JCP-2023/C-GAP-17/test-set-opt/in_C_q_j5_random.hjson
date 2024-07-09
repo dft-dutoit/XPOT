@@ -1,0 +1,89 @@
+{
+    xpot: {
+        fitting_executable: fitsnap3
+        lammps_executable: ""
+        project_name: opt_SNAP
+        sweep_name: q_5_C_random
+        alpha: 0.96
+        training_data: ../../../input_data/valid/total_train.xyz
+        validaton_data: ./test_sets/test_random_spheres.xyz
+    }
+    "[BISPECTRUM]":{
+        numTypes: 1
+        twojmax: 10
+        rcutfac: 3.7
+        rfac0: skopt.space.Real(0.70,1.5)
+        rmin0: 0
+        wj: 1
+        radelem: 0.5
+        type: C
+        chemflag: 0
+        bnormflag: 0
+        wselfallflag: 0
+        bzeroflag: 1
+        quadraticflag: 1
+    }
+    "[CALCULATOR]":{
+        calculator: LAMMPSSNAP
+        energy: 1
+        force: 1
+        stress: 0
+    }
+    "[ESHIFT]":{
+        "C":148.314002
+    }
+    "[GROUPS]":{
+        group_sections:
+        [
+            name
+            training_size
+            testing_size
+            eweight
+            fweight
+            vweight
+        ]
+        group_types: str float float float float float
+        random_sampling: "0"
+        smartweights: "0"
+        BOLTZT: ""
+        "bulk_amo_train":"1.0 0.0 skopt.space.Real(10,10000) skopt.space.Real(0.1,100) 1.0E-12",
+        "bulk_cryst_train":"1.0 0.0 skopt.space.Real(10,10000) skopt.space.Real(0.1,100) 1.0E-12",
+        "cluster_train":"1.0 0.0 skopt.space.Real(10,10000) skopt.space.Real(0.1,100) 1.0E-12",
+        "surf_amo_train":"1.0 0.0 skopt.space.Real(10,10000) skopt.space.Real(0.1,100) 1.0E-12",
+        "split_":"0.0 1.0 20 1 1.0E-12",
+        "test_random_spheres":"0.0 1.0 20 1 1.0E-12",
+        "high_t_md_":"0.0 1.0 20 1 1.0E-12"
+    }
+    "[MEMORY]":{
+        memory: ""
+        override: "0"
+    }
+    "[OUTFILE]":{
+        metrics: newsnap_metrics.md
+        potential: C_random_q
+    }
+    "[PATH]":{
+        dataPath: ../../../input_data
+    }
+    "[REFERENCE]":{
+        units: metal
+        atom_style: atomic
+        pair_style: zero 10.0
+        pair_coeff: * *
+    }
+    "[SCRAPER]":{
+        scraper: XYZ
+    }
+    "[SOLVER]":{
+        solver: SVD
+        normweight: ""
+        normratio: "0.5"
+        detailed_errors: "1"
+        compute_testerrs: "1"
+    }
+    "[EXTRAS]":{
+        dump_descriptors: "0"
+        dump_truth: "0"
+        dump_weights: "0"
+    }
+}
