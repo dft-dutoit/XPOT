@@ -2,13 +2,15 @@ from __future__ import annotations
 
 import math
 import time
+from collections.abc import Callable
 
+import xpot.loaders as load
 from xpot.models import *
 from xpot.optimiser import NamedOptimiser
 
 
-def optimize(
-    mlip: object,
+def optimise(
+    mlip: Callable,
     input_file: str,
     kwargs: dict[str, str | int | float],
     max_iter: int = 32,
@@ -27,7 +29,8 @@ def optimize(
     input_file : str
         Path to the input file containing hyperparameters for XPOT and MLIP
     kwargs : dict
-        Dictionary of keyword arguments to pass to the NamedOptimiser class
+        Dictionary of scikit-optimize keyword arguments to pass to the
+        NamedOptimiser class
     max_iter : int, optional
         Maximum number of iterations to run, by default 32
     min_loss : float, optional
@@ -39,7 +42,6 @@ def optimize(
     -------
     None
     """
-
     mlip_obj = mlip(input_file)
 
     opt = NamedOptimiser(
@@ -68,3 +70,43 @@ def optimize(
         + mlip_obj.sweep_path
         + ". Exiting..."
     )
+
+
+def single_fit(
+    mlip: Callable, input_file: str, autoplex: bool = False
+) -> None | tuple[float, float, float]:
+    """
+    Single function to run a single fit of an MLIP. This function contains
+    the full workflow detailed in the XPOT documentation notebooks for
+    optimizing MLIPs. This workflow is also autoplex compatible, enabling
+    the PACE fitting process.
+
+    Parameters
+    ----------
+    mlip : object
+        The MLIP class to optimize
+    input_file : str
+        Path to the input file containing hyperparameters for XPOT and MLIP
+
+    Returns
+    -------
+    None | tuple
+        If autoplex is True, returns a tuple containing the loss, train E error,
+        and test E error. These errors are returned depending on the metric
+        requested during teh fitting. If autoplex is False, returns None.
+    """
+    mlip_obj = mlip(input_file)
+    load.initialise_csvs(
+        mlip_obj.sweep_path, mlip_obj.optimisation_space.keys()
+    )
+    path = mlip_obj.sweep_path
+    loss = mlip_obj.fit(mlip_obj.optimisation_space, 0)
+
+    print(
+        "Optimization Finalized. Results saved in"
+        + mlip_obj.sweep_path
+        + ". Exiting..."
+    )
+    if autoplex:
+        output = load.autoplex_return(path, single=True, single_loss=loss)
+        return output

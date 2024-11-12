@@ -1,0 +1,7 @@
+
+{
+    "cutoff": 5,
+    "seed": 42,
+    "heinousness": "high",
+    "rand_list": [1, 2, 3]
+}

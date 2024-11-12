@@ -20,7 +20,7 @@
     "e0": "0.0",
     "local_property0": "0.0",
     "e0_offset": "0.0",
-    "e0_method": "isolated",
+    "e0_method": "",
     "default_sigma": [0.002,0.2,0.2,0.0],
     "sparse_jitter": "1.0e-8",
     "hessian_delta": "1.0e-2",

@@ -1,0 +1,54 @@
+{   
+    "cutoff": 6,
+    "seed": 42,
+    "metadata": {
+        "purpose": "Potential fit"
+    },
+    "data": {
+        "filename": "",
+        "train_size": "",
+        "test_filename": "",
+        "test_size": "",
+        "reference_energy": ""
+    },
+    "potential": {
+        "preset": "FS",  
+        "initial_potential": ""
+    },
+    "fit": {
+        "loss": {
+            "energy": {
+                "type": "huber",
+                "weight": 1,
+                "delta": 0.1
+            },
+            "forces": {
+                "type": "huber",
+                "weight": 5,
+                "delta": 0.1
+            },
+            "switch": {
+                "after_iter": 100,
+                "energy": {"weight": 5},
+                "forces": {"weight": 2}
+            }
+        },
+        "maxiter": 150,
+        "optimizer": "Adam",
+        "opt_params": {
+            "learning_rate": 0.01,
+            "amsgrad": "True",
+            "use_ema": "True",
+            "ema_momentum": 0.99,
+            "weight_decay": null,
+            "clipvalue": 1
+        },
+        "batch_size": 20,
+        "train_max_n_buckets": 10,
+        "test_max_n_buckets": 3,
+        "checkpoint_freq": 10,
+        "progressbar": "True",
+        "train_shuffle": "True",
+        "jit_compile": "True"
+    }
+}

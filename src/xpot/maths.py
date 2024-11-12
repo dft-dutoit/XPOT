@@ -40,7 +40,7 @@ def get_mae(
     float
         The mean absolute error, as a float.
     """
-    return np.mean(np.abs(list_in))
+    return float(np.mean(np.abs(list_in)))
 
 
 def scale_list_values(
@@ -66,3 +66,29 @@ def scale_list_values(
         The scaled list.
     """
     return [i / (j**n_exponent) for i, j in zip(list_in, scale_list)]
+
+
+def calculate_loss(
+    e_error: float,
+    f_error: float,
+    alpha: float = 0.5,
+) -> float:
+    """
+    Determine the loss value from the validation errors.
+
+    Parameters
+    ----------
+    e_error : float
+        The overall energy error.
+    f_error : float
+        The overall force error.
+    alpha : float
+        The weighting factor for the energy error.
+
+    Returns
+    -------
+    float
+        The loss value.
+    """
+
+    return (alpha * e_error) + ((1 - alpha) * f_error)

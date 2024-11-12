@@ -7,6 +7,8 @@ This section provides a full API reference for XPOT.
    :titlesonly:
    
    models/index
-   optimisers
+   workflows
+   optimiser
    loaders
+   convert
    maths

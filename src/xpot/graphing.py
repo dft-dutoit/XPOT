@@ -20,24 +20,24 @@ def plot_convergence(
     with open(data) as f:
         reader = csv.reader(f)
         next(reader)
-        data = list(reader)
+        data_list = list(reader)
 
-    iteration = [int(i[0]) for i in data]
-    loss = [float(i[1]) for i in data]
+    iteration = [int(i[0]) for i in data_list]
+    loss = [float(i[1]) for i in data_list]
 
     plt.plot(iteration, loss, label="Loss")
     plt.xlabel("Iteration")
     plt.ylabel("Loss")
     plt.title("Convergence")
 
-    plt.savefig(f"{data.split(".")[0]}.{format}")
+    plt.savefig(f"{data.split('.')[0]}.{format}")
 
 
 def plot_e_f_convergence(
     conv_data: str,
     e_f_data: str,
     format: str = "png",
-    style: str = None,
+    style: str = "",
 ) -> None:
     """
     Plot line graphs for the convergence, energy, and force errors throughout
