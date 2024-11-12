@@ -11,6 +11,8 @@ from matplotlib import pyplot as plt
 from skopt import plots
 from tabulate import tabulate
 
+import xpot.loaders as load
+
 DictValue = str | list[str, int] | int | float
 NestedDict = dict[str, Union["NestedDict", DictValue]]
 
@@ -50,7 +52,8 @@ class NamedOptimiser(Generic[Key]):
         )
         self.sweep_path = sweep_path
         self._optimisable_params = optimisable_params
-        self.initialise_csvs(sweep_path)
+        keys = [" ".join(i[0]) for i in self._optimisable_params]
+        load.initialise_csvs(sweep_path, keys)
         self.iter = 1
 
     def ask(self) -> dict[Key, DictValue]:
@@ -98,7 +101,7 @@ class NamedOptimiser(Generic[Key]):
         path : str
             Path of directory to write file to.
         """
-        with open(f"{path}/xpot-optimiser.pckl", "wb") as f:
+        with open(f"{path}/xpot-optimiser.pkl", "wb") as f:
             pickle.dump(self._optimiser, f)
 
     def load_optimiser(self, path: str) -> None:
@@ -209,7 +212,7 @@ class NamedOptimiser(Generic[Key]):
     def run_optimisation(
         self,
         objective: callable,
-        path: str = _exec_path,
+        path=_exec_path,
         **kwargs,
     ) -> float:
         """
@@ -249,7 +252,7 @@ class NamedOptimiser(Generic[Key]):
         data = self._optimiser.get_result()
         a = plots.plot_objective(data, levels=20, size=3)
         plt.tight_layout()
-        a.flatten()[0].figure.savefig(path / "objective.pdf")
+        a.figure.savefig(f"{path}/objective.pdf")
 
         b = plots.plot_evaluations(data)
-        b.flatten()[0].figure.savefig(path / "evaluations.pdf")
+        b.figure.savefig(f"{path}/evaluations.pdf")

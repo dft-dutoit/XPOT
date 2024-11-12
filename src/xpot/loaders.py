@@ -4,19 +4,21 @@ import csv
 import json
 import os
 import warnings
-from collections.abc import Iterator
-from typing import Union
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+from typing import Any, Union  # noqa: UP035
 
 import hjson
 import numpy as np
-import pandas as pd
 import skopt
+from ase import Atoms
+from ase.io import iread
 
 # DictValue = str | list[str | int] | int | float
 # NestedDict = dict[str, "NestedDict" | DictValue]
 
-DictValue = str | list[str, int] | int | float
-NestedDict = dict[str, Union["NestedDict", DictValue]]
+DictValue = str | list[str | int | float] | int | float
+NestedDict = dict[str, Union["NestedDict", Any]]
 
 
 def get_defaults(path: str) -> NestedDict:
@@ -52,7 +54,8 @@ def get_input_hypers(path: str) -> NestedDict:
         The input hyperparameters in dictionary format.
     """
     with open(path) as f:
-        return hjson.load(f)
+        # Used to convert from OrderedDict to dict.
+        return json.loads(json.dumps(hjson.load(f)))
 
 
 def merge_hypers(
@@ -122,35 +125,33 @@ def validate_subdict(
     bool
         True if the child dictionary is a subset of the parent dictionary.
     """
-    return all(
-        pair in recursive_items(child) for pair in recursive_items(parent)
-    )
+    return all([parent[k] == child[k] for k in child])
 
 
 def validate_hypers(
     merged_hypers: NestedDict,
     input_hypers: NestedDict,
-) -> None:
+) -> bool:
     """
     Validate the hyperparameters.
 
     Parameters
     ----------
-    hypers : dict
-        The hyperparameters in dictionary format.
-    defaults : dict
-        The default parameters in dictionary format.
+    merged_hypers : dict
+        The merged dictionary of defaults and hypers.
+    input_hypers : dict
+        A dictionary of a subset of values (normally input hypers).
 
     Raises
     ------
     ValueError
-        If the input hyperparameters are not a subset of the default parameters.
+        If the input hyperparameters are not a subset of the merged parameters.
     """
     if validate_subdict(merged_hypers, input_hypers):
-        print("Hyperparameters validated")
+        return True
     else:
         raise ValueError(
-            "Input hyperparameters are not a subset of the default parameters."
+            "Input hyperparameters are not a subset of the merged parameters."
         )
 
 
@@ -170,12 +171,12 @@ def get_optimisable_params(
     dict
         The optimisable parameters in dictionary format.
     """
-    list_values = []
+    # list_values = []
     opt_values = {}
     for kv_pair in recursive_items(hypers):
-        if isinstance(kv_pair[-1], list):
-            list_values.append(kv_pair[-1])
-        elif isinstance(kv_pair[-1], str) and "skopt" in kv_pair[-1]:
+        # if isinstance(kv_pair[-1], list):
+        #     list_values.append(kv_pair[-1])
+        if isinstance(kv_pair[-1], str) and "skopt" in kv_pair[-1]:
             # v_trimmed = kv_pair[-1].replace("skopt.space.", "")
             opt_values[kv_pair[:-1]] = eval(kv_pair[-1])
         else:
@@ -183,7 +184,9 @@ def get_optimisable_params(
     return opt_values
 
 
-def trim_empty_values(dict_in: dict) -> dict[str, str | int | float | list]:
+def trim_empty_values(
+    dict_in: NestedDict,
+) -> dict[str, str | int | float | list]:
     """
     Remove empty values from a dictionary.
 
@@ -203,7 +206,7 @@ def trim_empty_values(dict_in: dict) -> dict[str, str | int | float | list]:
         key: v
         for key, value in dict_in.items()
         if (v := trim_empty_values(value)) not in ("", {})
-    }
+    }  # type: ignore
 
 
 def _create_dir(path: str) -> None:
@@ -217,7 +220,7 @@ def _create_dir(path: str) -> None:
     """
     if not os.path.exists(path):
         os.makedirs(path)
-    elif os.path.exists(path) and not os.path.listdir(path):
+    elif os.path.exists(path) and not os.listdir(path):
         warnings.warn(
             f"{path} already exists, but is empty. Continuing...", stacklevel=2
         )
@@ -297,9 +300,9 @@ def prep_dict_for_dump(d: dict) -> dict:
     for k, v in d.items():
         if isinstance(v, dict):
             prep_dict_for_dump(v)
-        elif isinstance(v, np.int64):
+        elif isinstance(v, np.int64):  # type: ignore
             d[k] = int(v)
-        elif isinstance(v, np.float64):
+        elif isinstance(v, np.float64):  # type: ignore
             d[k] = float(v)
     return d
 
@@ -327,36 +330,6 @@ def list_to_string(d: NestedDict) -> NestedDict:
     return d
 
 
-def drop_col_with_text(
-    df: pd.DataFrame,
-    column_name: str,
-    text: str,
-    reverse: bool = False,
-) -> pd.DataFrame:
-    """
-    Drop a column from a dataframe if it contains a specific string. This
-    function is case sensitive.
-
-    Parameters
-    ----------
-    df : pd.DataFrame
-        The dataframe to be modified.
-    text : str
-        The text to search for in the column names.
-
-    Returns
-    -------
-    pd.DataFrame
-        The modified dataframe.
-    """
-    if column_name not in df.columns:
-        raise ValueError(f"{column_name} not in dataframe columns, exiting.")
-
-    mask = df["column_name"].apply(lambda x: any(text in str(e) for e in x))
-
-    return df.loc[:, mask] if reverse else df.loc[:, ~mask]
-
-
 def return_best_potential(
     run_path: str,
 ) -> str:
@@ -380,19 +353,67 @@ def return_best_potential(
         data = list(reader)
 
     loss = [float(i[1]) for i in data]
-
-    best_iteration = loss.index(min(loss))
-
+    iteration = [int(i[0]) for i in data]
+    best_iteration = iteration[loss.index(min(loss))]
     return f"{run_path}/{best_iteration}/"
 
 
 def autoplex_return(
     run_path: str,
+    single: bool = False,
+    single_loss: float = 1,
 ) -> tuple[float, float, float]:
     """
     Return the autoplex-compatible loss, train error, and test error of the best
     potential from an optimization sweep.
 
+    Parameters
+    ----------
+    run_path : str
+        The path to the run directory.
+    single : bool, optional
+        Whether the run is a single fit, by default False.
+    single_loss : float, optional
+        The loss value for a single fit, this should be set manually,
+        but is by default 1.
+
+    Returns
+    -------
+    tuple
+        The loss, train error, and test error of the potential with the lowest
+        loss.
+    """
+    # ml_path = return_best_potential(run_path)
+    if single:
+        a = single_autoplex_return(run_path, single_loss)
+        return a
+
+    with open(f"{run_path}/parameters.csv") as f:
+        reader = csv.reader(f)
+        next(reader)
+        loss = list(reader)
+
+    with open(f"{run_path}/atomistic_errors.csv") as f:
+        reader = csv.reader(f)
+        next(reader)
+        errors = list(reader)
+    loss = [i[1] for i in loss]
+    loss = [float(i) for i in loss]
+    iter = loss.index(min(loss))
+    best_loss = min(loss)
+    train_error = errors[iter][1]
+    test_error = errors[iter][2]
+
+    return (best_loss, float(train_error), float(test_error))
+
+
+def single_autoplex_return(
+    run_path: str,
+    loss: float,
+) -> tuple[float, float, float]:
+    """
+    Return the autoplex-compatible loss, train error, and test error of a single
+    potential from a single fit.
     Parameters
     ----------
     run_path : str
@@ -404,25 +425,18 @@ def autoplex_return(
         The loss, train error, and test error of the potential with the lowest
         loss.
     """
-    ml_path = return_best_potential(run_path)
-
-    with open(f"{ml_path}/parameters.csv") as f:
-        reader = csv.reader(f)
-        next(reader)
-        loss = list(reader)
-
-    with open(f"{ml_path}/atomistic_errors.csv") as f:
+    with open(f"{run_path}/atomistic_errors.csv") as f:
         reader = csv.reader(f)
         next(reader)
         errors = list(reader)
-    loss = [float(i[1]) for i in loss]
-    iter = loss.index(min(loss))
-    best_loss = min([float(i[1]) for i in loss])
+    best_loss = loss
+    train_error = errors[0][1]
+    test_error = errors[0][2]
 
-    return (best_loss, errors[iter][1], errors[iter][2])
+    return (best_loss, float(train_error), float(test_error))
 
 
-def convert_numpy_str(data):
+def convert_numpy_types(data):
     """
     Convert numpy string to native string type. Used to avoid errors when
     writing yaml files.
@@ -438,10 +452,78 @@ def convert_numpy_str(data):
         The variable with numpy strings converted to native strings.
     """
     if isinstance(data, dict):
-        return {k: convert_numpy_str(v) for k, v in data.items()}
+        return {k: convert_numpy_types(v) for k, v in data.items()}
     elif isinstance(data, list):
-        return [convert_numpy_str(element) for element in data]
+        return [convert_numpy_types(element) for element in data]
     elif isinstance(data, np.str_):
         return str(data)
+    elif isinstance(data, np.floating):
+        return float(data)
+    elif isinstance(data, np.integer):
+        return int(data)
     else:
         return data
+
+
+def load_structures(data_file: str | Path) -> Iterable[Atoms]:
+    structures = iread(data_file, index=":")
+    if isinstance(structures, Atoms):
+        return [structures]
+    return structures
+
+
+def write_error_file(
+    iteration: int,
+    errors: list[float],
+    filename: str,
+):
+    """
+    Write the error values to a file.
+
+    Parameters
+    ----------
+    e_train : float
+        The energy training error.
+    f_train : float
+        The force training error.
+    e_test : float
+        The energy validation error.
+    f_test : float
+        The force validation error.
+    filename : str
+        The file to write to.
+    """
+    if len(errors) != 4:
+        raise ValueError(
+            "Error values must be a list of length 4, made up of "
+            "the training and testing energy and force errors."
+        )
+    output_data = [iteration, *errors]
+    with open(filename, "a", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(output_data)
+
+
+def initialise_csvs(path: str, params: list) -> None:
+    keys = params
+    with open(f"{path}/parameters.csv", "w+") as f:
+        f.write("iteration,loss," + ",".join(map(str, keys)) + "\n")
+    with open(f"{path}/atomistic_errors.csv", "w+") as f:
+        f.write(
+            "Iteration,"
+            + "Train Δ Energy,"
+            + "Test Δ Energy,"
+            + "Train Δ Force,"
+            + "Test Δ Force"
+            + "\n"
+        )
+    with open(f"{path}/loss_function_errors.csv", "w+") as f:
+        f.write(
+            "Iteration,"
+            + "Train Δ Energy,"
+            + "Test Δ Energy,"
+            + "Train Δ Force,"
+            + "Test Δ Force"
+            + "\n"
+        )
+    print("Initialised CSV Files")

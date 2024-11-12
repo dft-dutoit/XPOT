@@ -1,0 +1,33 @@
+{
+    "xpot": {
+        project_name: tests/mock_runs/test_models
+        sweep_name: mace
+        error_method: rmse
+        alpha: 0.5,        
+    },
+    "name": test-mace
+    "seed": 42,
+    "train_file": "../../../../inputs/mace-train.xyz",
+    "test_file": "../../../../inputs/mace-test.xyz",
+    "valid_fraction": 0.33,
+    "E0s": "average",
+    "energy_key": "qm_energy",
+    "forces_key": "qm_forces",
+    "model": "ScaleShiftMACE",
+    "hidden_irreps": "1x0e + 1x1o",
+    "r_max": 10,
+    "batch_size": "skopt.space.Integer(1,2)",
+    "max_num_epochs": 3,
+    "ema": "yes",
+    "ema_decay": 0.99,
+    "compute_stress": false,
+    "stress_weight": 0
+    "config_type_weights": {
+        "Default": 1.0
+    },
+    "loss": "huber",
+    "amsgrad": "yes",
+    "device": "cpu"
+    "default_dtype": "float32"
+
+}

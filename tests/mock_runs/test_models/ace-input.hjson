@@ -1,0 +1,79 @@
+{
+    "xpot": {
+        fitting_executable: pacemaker
+        project_name: tests/mock_runs/test_models
+        sweep_name: ace
+        error_method: rmse
+        alpha: 0.5,
+    }
+    "cutoff": 10,
+    "seed": 42
+    "metadata": {
+        "purpose": "Potential fit"
+        },
+    "data": {
+        "datapath": ../../../../inputs
+        "filename": "train-test.xyz.pkl.gzip",
+        "test_filename": "test-test.xyz.pkl.gzip",
+    },
+    "potential": {
+        "deltaSplineBins": 0.001,
+        "elements": ["Cu"],
+        "embeddings": {
+            "ALL": {
+                "npot": "FinnisSinclairShiftedScaled",
+                "fs_parameters": [1,1,1,"skopt.space.Real(0.1, 2)"],
+                "ndensity": 2,
+                "rho_core_cut": 3000,
+                "drho_core_cut": 500
+            }
+        },
+        "rankmax": "",
+        "bonds": {
+            "ALL": {
+                "radbase": "SBessel",
+                "radparameters": [6.25],
+                "rcut": 10,
+                "dcut": 0.01,
+                "r_in": "",
+                "delta_in": "",
+                "core-repulsion": "",
+                "NameofCutoffFunction": "cos"
+            }
+        },
+        "functions": {
+            "number_of_functions_per_element": 5,
+            "ALL": {
+                "nradmax_by_orders": [15,6,4,3,2,2],
+                "lmax_by_orders": [0,4,3,2,1,0],
+                "coeffs_init": ""
+            },
+        "initial_potential": ""
+        }
+    },
+    "fit": {
+        "loss": {
+            "kappa": "auto",
+            "L1_coeffs": 1e-8,
+            "L2_coeffs": 1e-8,
+            "w0_rad": 1e-8,
+            "w1_rad": 1e-8,
+            "w2_rad": 1e-8,
+            "w1_coeffs": 0,
+            "w2_coeffs": 0,
+            "w_orth": ""
+        },
+        "optimizer": "BFGS",
+        "maxiter": 1,
+        "repulsion": "auto",
+        "trainable_parameters": "ALL",
+    },
+    "backend": {
+        "evaluator": "tensorpot",
+        "batch_size": 50,
+        "batch_size_reduction": "True",
+        "batch_size_reduction_factor": 2,
+        "display_step": 50,
+        "gpu_config": {"mem_limit": 0}
+    }
+}

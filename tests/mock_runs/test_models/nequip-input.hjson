@@ -1,0 +1,20 @@
+{
+    "xpot": {
+        project_name: tests/mock_runs/test_models
+        sweep_name: nequip
+        error_method: rmse
+        test_set_file: "../../../../inputs/test-test.xyz"
+        alpha: 0.5,     
+    },
+    "run_name": test-nequip
+    "seed": 42,
+    "dataset_file_name": "../../../../inputs/nequip-train.xyz",
+    "key_mapping": {"energy": "total_energy", "forces": "forces", "R": "pos"},
+    "chemical_symbols": ["Si"],
+    "r_max": 8,
+    "num_layers": 1,
+    "max_epochs": "skopt.space.Integer(1,2)",
+    "n_train": 3
+    "n_val": 1
+
+}

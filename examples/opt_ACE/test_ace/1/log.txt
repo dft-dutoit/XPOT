@@ -1,0 +1,52 @@
+2024-10-09 09:45:45,007 I - Start pacemaker
+2024-10-09 09:45:45,008 I - Hostname: Daniels-MacBook-Air.local
+2024-10-09 09:45:45,008 I - Username: dft-dutoit
+2024-10-09 09:45:45,008 I - pacemaker/pyace version: 0.2.7+163.g0ad96ce
+2024-10-09 09:45:45,008 I - ace_evaluator   version: 2023.11.25
+2024-10-09 09:45:45,008 I - Loading xpot-ace.yaml... 
+2024-10-09 09:45:45,014 I - Set numpy random seed to 42
+2024-10-09 09:45:45,078 I - Number of functions in target potential is limited to maximum 50 functions per element  for 1 elements (1 blocks)
+2024-10-09 09:45:45,078 I - Resulted potential contains 50 functions
+2024-10-09 09:45:45,078 I - Target potential shape constructed from dictionary, it contains 50 functions
+2024-10-09 09:45:47,136 E - module 'tensorpotential' has no attribute '__version__'
+2024-10-09 09:45:47,136 I - User name automatically identified: dft-dutoit
+2024-10-09 09:45:47,136 I - Search for dataset file(s): ['/Users/dft-dutoit/Documents/xpot/examples/cu_icams.pckl.gzip']
+2024-10-09 09:45:47,136 I - #1/1: try to load /Users/dft-dutoit/Documents/xpot/examples/cu_icams.pckl.gzip
+2024-10-09 09:45:47,136 I - Loading dataframe from pickle file /Users/dft-dutoit/Documents/xpot/examples/cu_icams.pckl.gzip (20.8KiB)
+2024-10-09 09:45:47,139 I -  105 structures found
+2024-10-09 09:45:47,144 I - Processing structures dataframe. Shape: (105, 6)
+2024-10-09 09:45:47,144 I - Total number of atoms: 368
+2024-10-09 09:45:47,144 I - Mean number of atoms per structure: 3.5
+2024-10-09 09:45:47,145 I - Min/max energy per atom: [-3.700, -3.494] eV/atom
+2024-10-09 09:45:47,145 I - Min/max abs energy per atom: [3.494, 3.700] eV/atom
+2024-10-09 09:45:47,148 I - Attaching SinglePointCalculator to ASE atoms...done
+2024-10-09 09:45:47,148 I - Construction of neighbour lists...
+2024-10-09 09:45:47,148 I - Building 'tp_atoms' (dataset size 105, cutoff=5.339A)...
+2024-10-09 09:45:47,172 I - Dataframe size after transform: 105
+2024-10-09 09:45:47,172 I - Construction of neighbour lists...done within 0.024 sec (0.0652 ms/atom)
+2024-10-09 09:45:47,172 I - Splitting out test dataset (test_size = 0.1) from main dataset(105 samples)
+2024-10-09 09:45:47,174 I - Processing structures dataframe. Shape: (10, 8)
+2024-10-09 09:45:47,174 I - Total number of atoms: 13
+2024-10-09 09:45:47,174 I - Mean number of atoms per structure: 1.3
+2024-10-09 09:45:47,174 I - Min/max energy per atom: [-3.691, -3.540] eV/atom
+2024-10-09 09:45:47,174 I - Min/max abs energy per atom: [3.540, 3.691] eV/atom
+2024-10-09 09:45:47,175 I - Attaching SinglePointCalculator to ASE atoms...done
+2024-10-09 09:45:47,175 I - Construction of neighbour lists...
+2024-10-09 09:45:47,175 I - Building 'tp_atoms' (dataset size 10, cutoff=5.339A)...
+2024-10-09 09:45:47,177 I - Dataframe size after transform: 10
+2024-10-09 09:45:47,177 I - Construction of neighbour lists...done within 0.00231 sec (0.178 ms/atom)
+2024-10-09 09:45:47,178 I - No weighting policy is specified, setting default weighting policy
+2024-10-09 09:45:47,178 I - Apply weights policy: UniformWeightingPolicy()
+2024-10-09 09:45:47,187 I - Dataset saved into fitting_data_info.pckl.gzip
+2024-10-09 09:45:47,188 I - Dataset saved into test_data_info.pckl.gzip
+2024-10-09 09:45:47,188 I - Plotting train energy-forces distribution
+2024-10-09 09:45:47,783 I - Plotting test energy-forces distribution
+2024-10-09 09:45:48,054 I - LossFunctionSpecification:kappa automatically selected: kappa = 0.970
+2024-10-09 09:45:48,122 I - Fitting dataset size: 95 structures / 355 atoms
+2024-10-09 09:45:48,122 I - Test dataset size: 10 structures / 13 atoms
+2024-10-09 09:45:48,122 I - 'Single-shot' fitting
+2024-10-09 09:45:48,122 I - Cycle fitting loop
+2024-10-09 09:45:48,122 I - Number of fit attempts: 0/1
+2024-10-09 09:45:48,122 I - Total number of functions: 50 / number of parameters: 316
+2024-10-09 09:45:48,122 I - Running fit backend
+2024-10-09 09:45:48,125 I - Trainable parameters: {('Cu',): ['func', 'radial']}

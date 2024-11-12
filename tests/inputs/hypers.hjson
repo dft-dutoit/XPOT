@@ -1,0 +1,6 @@
+
+{
+    "seed": skopt.space.Integer(1,10)
+    heinousness: "low"
+    rand_list: [1, 2, 4]
+}

@@ -1,0 +1,65 @@
+{
+    "xpot": {
+        fitting_executable: gap_fit
+        project_name: tests/mock_runs/test_models
+        sweep_name: gap
+        error_method: rmse
+        validation_data: "/u/vld/scat7402/Documents/xpot-v2/examples/gap_C_XYZ/suft_amo_test.xyz"
+        alpha: 0.5,
+    },
+    
+    "at_file": "/u/vld/scat7402/Documents/xpot-v2/examples/gap_C_XYZ/bulk_cryst_train.xyz",
+
+    "gap": {
+        "distance_Nb": {
+            "order": 2,
+            "f0": 0.0,
+            "cutoff": "skopt.space.Real(4,7)",
+            "n_sparse": 15,
+            "delta": 2.0,
+            "config_type_n_sparse": "",
+            "sparse_method": "random",
+            "mark_sparse_atoms": "F",
+            "add_species": "T",
+            "covariance_type": "gaussian",
+            "theta_uniform": 1.0,
+        }
+    },
+    
+    "core_param_file": "",
+    "core_ip_args": "",
+    "energy_parameter_name": "energy",
+    "local_property_parameter_name": "local_property",
+    "force_parameter_name": "forces",
+    "virial_parameter_name": "virial",
+    "hessian_parameter_name": "hessian",
+    "config_type_parameter_name": "config_type",
+    "sigma_parameter_name": "sigma",
+    "force_mask_parameter_name": "force_mask",
+    "parameter_name_prefix": "",
+    "gap_file": "gap.xml",
+    "verbosity": "NORMAL",
+    "template_file": "",
+    "sparsify_only_no_fit": "F",
+    "e0": "0.0",
+    "local_property0": "0.0",
+    "e0_offset": "0.0",
+    "e0_method": "isolated",
+    "default_sigma": [0.002,0.2,0.2,0.0], # Must be parsed as a list.
+    "sparse_jitter": "1.0e-8",
+    "hessian_delta": "1.0e-2",
+    "config_type_kernel_regularisation": "",
+    "config_type_sigma energy": "",
+    "config_type_sigma force": "",
+    "config_type_sigma virial": "",
+    "config_type_sigma hessian": "",
+    "kernel_regularisation_is_per_atom": "T",
+    "sigma_per_atom": "T",
+    "do_copy_atoms_file": "T",
+    "do_copy_at_file": "T",
+    "sparse_separate_file": "T",
+    "sparse_use_actual_gpcov": "F",
+    "rnd_seed": "1",
+    "openmp_chunk_size": "10000",
+    "do_ip_timing": "F"
+}

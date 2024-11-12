@@ -4,18 +4,37 @@ build-backend = "setuptools.build_meta"
  
 [project]
 name = "xpot"
-version = "1.2.0"
+version = "0.0.0"
 description = "Cross-Platorm Optimser for Hyperparameter Tuning"
 readme = "README.md"
+license = { file = "LICENSE" }
+authors = [{name = "Daniel Thomas du Toit", email = "daniel@thomasdutoit.net"}]
 dependencies = [
-    "scikit-optimize",
-    "numpy",
-    "hjson",
-    "pandas",
-    "matplotlib",
     "ase",
-    "tabulate"
+    "hjson",
+    "joblib",
+    "matplotlib",
+    "numpy<2",
+    "pandas",
+    "PyYAML",
+    "scikit_optimize",
+    "tabulate",
+    "quippy-ase",
 ]
+requires-python = ">=3.10"
+
+[project.optional-dependencies]
+test = ["pytest", "pytest-cov"]
+dev = ["notebook", "ruff"]
+doc = [
+    "sphinx",
+    "furo",
+    "nbsphinx",
+    "sphinx-autobuild",
+    "sphinxext-opengraph",
+    "sphinx-copybutton",
+]
+publish = ["build", "twine"]
 
 [tool.ruff]
 line-length = 80

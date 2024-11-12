@@ -9,12 +9,11 @@ XPOT Documentation
 **XPOT** is a Python package for automated optimisation of hyperparameters when 
 fitting machine learning potentials for chemistry. 
 
-This documentation is a work in progress, and will be updated as the package is 
-developed.
+This documentation is a work in progress, and will be updated as the package is developed over time.
 
 .. note:: 
-   XPOT currently supports ACE, SNAP, and GAP potentials, and work continues on 
-   adding support for other potentials.
+   XPOT currently supports ACE (via `pacemaker`), SNAP (via `fitSNAP3`), and GAP (via `gap_fit`)potentials, and work continues on 
+   adding support for GNN potentials.
 
 .. toctree::
    :maxdepth: 2

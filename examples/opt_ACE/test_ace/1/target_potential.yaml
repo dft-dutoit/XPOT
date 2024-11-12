@@ -1,0 +1,78 @@
+metadata:
+  ace_evaluator_version: 2023.11.25
+  pacemaker_version: 0.2.7+163.g0ad96ce
+  starttime: 2024-10-09 09:45:47.136294
+  user: dft-dutoit
+global:
+  DeltaSplineBins: 0.001
+species:
+  - speciesblock: Cu
+    ndensityi: 2
+    npoti: FinnisSinclairShiftedScaled
+    parameters: [1, 1, 1, 1.6134316750344428]
+    rho_core_cut: 3000
+    drho_core_cut: 500
+    nradmaxi: 6
+    lmaxi: 3
+    rcutij: 5.339073000818308
+    dcutij: 0.060088165636702225
+    NameOfCutoffFunctionij: ""
+    r_in: 0
+    delta_in: 0
+    inner_cutoff_type: distance
+    nradbaseij: 9
+    radbase: SBessel
+    radparameters: [2.6509131087954745]
+    radcoefficients: [[[1, 0, 0, 0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0, 0, 0]], [[0, 1, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0, 0]], [[0, 0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 0, 0]], [[0, 0, 0, 1, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0, 0, 0]], [[0, 0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0, 0]], [[0, 0, 0, 0, 0, 1, 0, 0, 0], [0, 0, 0, 0, 0, 1, 0, 0, 0], [0, 0, 0, 0, 0, 1, 0, 0, 0], [0, 0, 0, 0, 0, 1, 0, 0, 0]]]
+    core-repulsion: [0, 0]
+    nbody:
+      - {type: Cu Cu, nr: [1], nl: [0], c: [0, 0]}
+      - {type: Cu Cu, nr: [2], nl: [0], c: [0, 0]}
+      - {type: Cu Cu, nr: [3], nl: [0], c: [0, 0]}
+      - {type: Cu Cu, nr: [4], nl: [0], c: [0, 0]}
+      - {type: Cu Cu, nr: [5], nl: [0], c: [0, 0]}
+      - {type: Cu Cu, nr: [6], nl: [0], c: [0, 0]}
+      - {type: Cu Cu, nr: [7], nl: [0], c: [0, 0]}
+      - {type: Cu Cu, nr: [8], nl: [0], c: [0, 0]}
+      - {type: Cu Cu, nr: [9], nl: [0], c: [0, 0]}
+      - {type: Cu Cu Cu, nr: [1, 1], nl: [0, 0], c: [0, 0]}
+      - {type: Cu Cu Cu, nr: [1, 1], nl: [1, 1], c: [0, 0]}
+      - {type: Cu Cu Cu, nr: [1, 1], nl: [2, 2], c: [0, 0]}
+      - {type: Cu Cu Cu, nr: [1, 1], nl: [3, 3], c: [0, 0]}
+      - {type: Cu Cu Cu, nr: [1, 2], nl: [0, 0], c: [0, 0]}
+      - {type: Cu Cu Cu, nr: [1, 2], nl: [1, 1], c: [0, 0]}
+      - {type: Cu Cu Cu, nr: [1, 2], nl: [2, 2], c: [0, 0]}
+      - {type: Cu Cu Cu, nr: [1, 3], nl: [0, 0], c: [0, 0]}
+      - {type: Cu Cu Cu, nr: [1, 3], nl: [1, 1], c: [0, 0]}
+      - {type: Cu Cu Cu, nr: [1, 3], nl: [2, 2], c: [0, 0]}
+      - {type: Cu Cu Cu, nr: [1, 4], nl: [0, 0], c: [0, 0]}
+      - {type: Cu Cu Cu, nr: [1, 4], nl: [1, 1], c: [0, 0]}
+      - {type: Cu Cu Cu, nr: [1, 5], nl: [0, 0], c: [0, 0]}
+      - {type: Cu Cu Cu, nr: [1, 5], nl: [1, 1], c: [0, 0]}
+      - {type: Cu Cu Cu, nr: [1, 6], nl: [0, 0], c: [0, 0]}
+      - {type: Cu Cu Cu, nr: [2, 2], nl: [0, 0], c: [0, 0]}
+      - {type: Cu Cu Cu, nr: [2, 2], nl: [1, 1], c: [0, 0]}
+      - {type: Cu Cu Cu, nr: [2, 2], nl: [2, 2], c: [0, 0]}
+      - {type: Cu Cu Cu, nr: [2, 3], nl: [0, 0], c: [0, 0]}
+      - {type: Cu Cu Cu, nr: [2, 3], nl: [1, 1], c: [0, 0]}
+      - {type: Cu Cu Cu, nr: [2, 4], nl: [0, 0], c: [0, 0]}
+      - {type: Cu Cu Cu, nr: [2, 4], nl: [1, 1], c: [0, 0]}
+      - {type: Cu Cu Cu, nr: [2, 5], nl: [0, 0], c: [0, 0]}
+      - {type: Cu Cu Cu, nr: [2, 6], nl: [0, 0], c: [0, 0]}
+      - {type: Cu Cu Cu, nr: [3, 3], nl: [0, 0], c: [0, 0]}
+      - {type: Cu Cu Cu, nr: [3, 3], nl: [1, 1], c: [0, 0]}
+      - {type: Cu Cu Cu, nr: [3, 4], nl: [0, 0], c: [0, 0]}
+      - {type: Cu Cu Cu, nr: [3, 5], nl: [0, 0], c: [0, 0]}
+      - {type: Cu Cu Cu, nr: [4, 4], nl: [0, 0], c: [0, 0]}
+      - {type: Cu Cu Cu Cu, nr: [1, 1, 1], nl: [0, 0, 0], lint: [0], c: [0, 0]}
+      - {type: Cu Cu Cu Cu, nr: [1, 1, 1], nl: [0, 1, 1], lint: [1], c: [0, 0]}
+      - {type: Cu Cu Cu Cu, nr: [1, 1, 2], nl: [0, 0, 0], lint: [0], c: [0, 0]}
+      - {type: Cu Cu Cu Cu, nr: [1, 1, 2], nl: [0, 1, 1], lint: [1], c: [0, 0]}
+      - {type: Cu Cu Cu Cu, nr: [1, 1, 2], nl: [1, 1, 0], lint: [0], c: [0, 0]}
+      - {type: Cu Cu Cu Cu, nr: [1, 1, 3], nl: [0, 0, 0], lint: [0], c: [0, 0]}
+      - {type: Cu Cu Cu Cu, nr: [1, 1, 4], nl: [0, 0, 0], lint: [0], c: [0, 0]}
+      - {type: Cu Cu Cu Cu, nr: [1, 2, 2], nl: [0, 0, 0], lint: [0], c: [0, 0]}
+      - {type: Cu Cu Cu Cu, nr: [1, 2, 3], nl: [0, 0, 0], lint: [0], c: [0, 0]}
+      - {type: Cu Cu Cu Cu, nr: [2, 2, 2], nl: [0, 0, 0], lint: [0], c: [0, 0]}
+      - {type: Cu Cu Cu Cu Cu, nr: [1, 1, 1, 1], nl: [0, 0, 0, 0], lint: [0, 0], c: [0, 0]}
+      - {type: Cu Cu Cu Cu Cu, nr: [1, 1, 1, 2], nl: [0, 0, 0, 0], lint: [0, 0], c: [0, 0]}

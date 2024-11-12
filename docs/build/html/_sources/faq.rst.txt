@@ -3,7 +3,7 @@ FAQ
 
 **What fitting methods are included in XPOT?**
 
-ACE, SNAP, and GAP potentials are currently implemented in XPOT. Development for expansion to other methods will follow.
+ACE, SNAP, and GAP potentials are currently implemented in XPOT. Development of inclusion for GNNs is underway.
 
 **What are the best practices for using XPOT?**
 
@@ -14,6 +14,12 @@ Users are required to make sure that the parameter space that they optimize over
 The more constrained the search space is, the fewer iterations are *normally* required to reach a stage with diminishing returns.
 
 Several generalised functions are provided for ease of use (conversion between dataset types, extraction of the best potential etc.).
+
+**Generating Datasets for Optimization**
+
+Some ML potentials benefit from different things in datasets. For example, GAP potentials are often fit with dimer data in the dataset, while other methods (such as ACE) may perform better when this data is excluded. It is worth noting that dimer data can skew the `cutoff` hyperparameter if it is optimized. This is because the dimer data will go out to a distance that is often significantly longer than the interactions in the rest of the (bulk) dataset. As such, we recommend not including dimer data in fitting unless you are aware of this effect, and alter the dimer data included *for optimization* to end at the minimum cutoff distance allowed in optimization. 
+
+Additionally, we recommend that users can optimize their potentials on smaller datasets which are representative of their large final datasets. This can significantly reduce the time required for optimization. However, the complexity of the potential will often need to be reduced for smaller datasets, and this should be taken into account when optimization is undertaken.
 
 **How parallelisable is XPOT?**
 
