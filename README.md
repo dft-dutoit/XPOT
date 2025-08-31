@@ -64,5 +64,5 @@ If you use XPOT in your research, please cite the following works:
 - ACE, SNAP, and GAP hyperparameter optimisation
 - Summary tables for all hyperparameters tested
 - Resumeable optimisation runs using previous files
-- New architectures and integrations under development!
+- 🚧 **Under Construction**: GNN Architecture integrations and compatibility with automated data creation
 
