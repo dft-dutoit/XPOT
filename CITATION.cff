@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: "If you use XPOT in your research, please cite the following works."
 title: "XPOT"
-version: 0.2.0
+version: 1.0.0
 authors:
   - family-names: "Thomas du Toit"
     given-names: "Daniel F."
@@ -12,35 +12,33 @@ authors:
   - family-names: "Deringer"
     given-names: "Volker L."
 preferred-citation:
-  type: collection
-  title: "XPOT References"
-  citations:
-    - type: article
-      authors:
-        - family-names: "Thomas du Toit"
-          given-names: "Daniel F."
-        - family-names: "Zhou"
-          given-names: "Yuxing"
-        - family-names: "Deringer"
-          given-names: "Volker L."
-      title: "Cross-platform hyperparameter optimization for transferable atomistic machine learning potentials"
-      journal: "Journal of Chemical Theory and Computation"
-      year: 2024
-      volume: 20
-      issue: 22
-      start: 10103
-      end: 10113
-      doi: "10.1021/acs.jctc.4c01012"
-    - type: article
-      authors:
-        - family-names: "Thomas du Toit"
-          given-names: "Daniel F."
-        - family-names: "Deringer"
-          given-names: "Volker L."
-      title: "Cross-platform hyperparameter optimization for transferable atomistic machine learning potentials"
-      journal: "Journal of Chemical Physics"
-      year: 2023
-      volume: 159
-      number: 2
-      start: 024803
-      doi: "10.1063/5.0166765"
+  type: article
+  authors:
+    - family-names: "Thomas du Toit"
+      given-names: "Daniel F."
+    - family-names: "Zhou"
+      given-names: "Yuxing"
+    - family-names: "Deringer"
+      given-names: "Volker L."
+  title: "Cross-platform hyperparameter optimization for transferable atomistic machine learning potentials"
+  journal: "Journal of Chemical Theory and Computation"
+  year: 2024
+  volume: 20
+  issue: 22
+  start: 10103
+  end: 10113
+  doi: "10.1021/acs.jctc.4c01012"
+references:
+  - type: article
+    authors:
+      - family-names: "Thomas du Toit"
+        given-names: "Daniel F."
+      - family-names: "Deringer"
+        given-names: "Volker L."
+    title: "Cross-platform hyperparameter optimization for transferable atomistic machine learning potentials"
+    journal: "Journal of Chemical Physics"
+    year: 2023
+    volume: 159
+    number: 2
+    start: 024803
+    doi: "10.1063/5.0166765"
